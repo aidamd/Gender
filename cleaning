@@ -1,0 +1,25 @@
+import glob
+
+# Gillians Island
+for txt in glob.glob("1960s/GilligansIsland/a*"):
+    with open(txt, "rb") as file:
+        with open(txt[:-4] + "a.txt", "wb") as newFile:
+            content = file.readlines()
+            printit = False
+            sentence = ""
+            for line in content:
+                line = line.rstrip().lstrip()
+                if line.find("CUT TO:") != -1 or len(line) < 3 or line[0] == "(":
+                    continue
+                if printit:
+                    if line[-1] == "!" or line[-1] == "?" or line[-1] == ".":
+                        newFile.writelines(sentence + line)
+                        sentence = ""
+                        printit = False
+                    else:
+                        sentence = line + " "
+                else:
+                    if len(line) > 2 and line.upper() == line and len(line.split(" ")) < 2:
+                        printit = True
+                    else:
+                        printit = False

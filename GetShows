@@ -1,0 +1,9 @@
+import glob, spacy, csv
+from nltk.tokenize import word_tokenize
+
+with open('shows.csv', 'wb') as csvfile:
+    spamwriter = csv.writer(csvfile)
+    for i in range(1960, 2011, 10):
+        for dir in glob.glob(str(i) + "s/*"):
+            dirname = dir[6:]
+            spamwriter.writerow([dirname])

@@ -1,0 +1,18 @@
+import glob, re, os
+
+for txt in glob.glob("1960s/*/*"):
+    with open(txt, "rb") as file:
+        content = file.readlines()
+        all = ""
+        if len(content) < 1:
+            continue
+        for line in content:
+            all += line.rstrip().lstrip().replace("??", "").replace("- ", "").replace(">>", "") + " "
+        sentences = all.replace("-", "").replace(";", ".").replace("?", ".").replace("!", ".").lower().split(")")
+        os.remove(txt)
+        with open(txt, "wb") as newFile:
+            for sentence in sentences:
+                sentence = unicode(sentence, errors='ignore') + ")"
+                sentence2 = re.sub("([\(\[]).*?([\)\]])", "c", sentence).replace("()", "").replace("[]", "")
+                sentence3 = re.sub("(\d+)\:(\d+)\:(\d+)", "", sentence2)
+                newFile.write(sentence3)

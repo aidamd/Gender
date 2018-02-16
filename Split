@@ -1,0 +1,21 @@
+import glob, spacy, csv
+from nltk.tokenize import word_tokenize
+
+with open("JimmyNeutron.txt", "rb") as file:
+    content = file.readlines()
+    min = 0
+    count = 0
+    episode = open(str(count) + ".txt", "w")
+    for line in content:
+        if line[2] == ":":
+            now = int(line.split(":")[1])
+            if min - now > 20:
+                count += 1
+                episode = open(str(count) + ".txt", "w")
+            min = now
+        episode.write(line)
+
+
+
+
+
